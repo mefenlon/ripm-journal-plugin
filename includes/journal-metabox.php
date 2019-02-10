@@ -1,22 +1,16 @@
 <?php
 
+//Define the meta box
 add_action( 'add_meta_boxes', 'ripm_journal_meta_box_add' );
 function ripm_journal_meta_box_add()
 {
-    add_meta_box( 'ripm-journal-meta-box-id', 'Journal Information', 'ripm_journal_meta_box', 'ripm_journal', 'normal', 'high' );
+    add_meta_box( 'ripm-journal-meta-box-id', 'Journal Information', 'ripm_journal_meta_box', 'ripm_journal', 'side', 'high' );
 }
 
+//Define display elements for meta box fields
 function ripm_journal_meta_box()
 {
-    // $post is already set, and contains an object: the WordPress post
     global $post;
-    $values = get_post_custom( $post->ID );
-    //$abbreviation =  $post->post_name;
-    //$sort_title = isset( $values['ripm_journal_meta_box_sort_title'] ) ? $values['ripm_journal_meta_box_sort_title'] : '';
-    //$abbreviation = isset( $values['ripm_journal_meta_box_abbreviation'] ) ? $values['ripm_journal_meta_box_abbreviation'] : '';
-    //$start_year = isset( $values['ripm_journal_meta_box_start_year'] ) ? $values['ripm_journal_meta_box_start_year'] : '';
-    //$display_date = isset( $values['ripm_journal_meta_box_display_date'] ) ? $values['ripm_journal_meta_box_display_date'] : '';
-    //$periodicity = isset( $values['ripm_journal_meta_box_periodicity'] ) ? $values['ripm_journal_meta_box_periodicity'] : '';
     
     $sort_title = get_post_meta( $post->ID, 'ripm_journal_meta_box_sort_title', true ); 
     $abbreviation = get_post_meta( $post->ID, 'ripm_journal_meta_box_abbreviation', true ); 
@@ -24,39 +18,49 @@ function ripm_journal_meta_box()
     $display_date = get_post_meta( $post->ID, 'ripm_journal_meta_box_display_date', true ); 
     $periodicity = get_post_meta( $post->ID, 'ripm_journal_meta_box_periodicity', true ); 
      
-    // We'll use this nonce field later on when saving.
+    //nonce field used when saving.
     wp_nonce_field( 'ripm_journal_meta_box_nonce', 'meta_box_nonce' );
+    
     ?>
     <fieldset>
-			<div>
-        <label for="ripm_journal_meta_box_sort_title">Sort Title</label>
-        <input type="text" name="ripm_journal_meta_box_sort_title" id="ripm_journal_meta_box_sort_title" value="<?php echo $sort_title; ?>" />
+        <div>
+            <label for="ripm_journal_meta_box_sort_title">Sort Title</label>
+            <input type="text" name="ripm_journal_meta_box_sort_title" id="ripm_journal_meta_box_sort_title" value="<?php echo $sort_title; ?>" />
         </div>
-		</fieldset>
+    </fieldset>
 
-    <p>
-        <label for="ripm_journal_meta_box_abbreviation">Abbreviation</label>
-        <input type="text" name="ripm_journal_meta_box_abbreviation" id="ripm_journal_meta_box_abbreviation" value="<?php echo $abbreviation; ?>" />
-    </p>
+    <fieldset>
+        <div>
+            <label for="ripm_journal_meta_box_abbreviation">Abbreviation</label>
+            <input type="text" name="ripm_journal_meta_box_abbreviation" id="ripm_journal_meta_box_abbreviation" value="<?php echo $abbreviation; ?>" />
+        </div>
+    </fieldset>
      
-    <p>
-        <label for="ripm_journal_meta_box_start_year">Start Year</label>
-        <input type="text" name="ripm_journal_meta_box_start_year" id="ripm_journal_meta_box_start_year" value="<?php echo $start_year; ?>" />
-    </p>
+    <fieldset>
+        <div>
+            <label for="ripm_journal_meta_box_start_year">Start Year</label>
+            <input type="text" name="ripm_journal_meta_box_start_year" id="ripm_journal_meta_box_start_year" value="<?php echo $start_year; ?>" />
+        </div>
+    </fieldset>
 
-    <p>
-        <label for="ripm_journal_meta_box_display_date">Display Date</label>
-        <input type="text" name="ripm_journal_meta_box_display_date" id="ripm_journal_meta_box_display_date" value="<?php echo $display_date; ?>" />
-    </p>
+    <fieldset>
+        <div>
+            <label for="ripm_journal_meta_box_display_date">Display Date</label>
+            <input type="text" name="ripm_journal_meta_box_display_date" id="ripm_journal_meta_box_display_date" value="<?php echo $display_date; ?>" />
+        </div>
+    </fieldset>
 
-    <p>
-        <label for="ripm_journal_meta_box_periodicity">Periodicity</label>
-        <input type="text" name="ripm_journal_meta_box_periodicity" id="ripm_journal_meta_box_periodicity" value="<?php echo $periodicity; ?>" />
-    </p>
+    <fieldset>
+        <div>
+            <label for="ripm_journal_meta_box_periodicity">Periodicity</label>
+            <input type="text" name="ripm_journal_meta_box_periodicity" id="ripm_journal_meta_box_periodicity" value="<?php echo $periodicity; ?>" />
+        </div>
+    </fieldset>
      
     <?php    
 }
 
+//Save input from meta box
 add_action( 'save_post', 'ripm_journal_meta_box_save' );
 function ripm_journal_meta_box_save( $post_id )
 {
@@ -73,34 +77,13 @@ function ripm_journal_meta_box_save( $post_id )
      
     // now we can actually save the data
     $allowed = array( 
-        'a' => array( // on allow a tags
+            'a' => array( // on allow a tags
             'href' => array() // and those anchors can only have href attribute
         )
     );
 
-        //Set post name to abbreviation
-        // if( isset( $_POST['ripm_journal_meta_box_abbreviation'] ) ){
-        //     $clean_name = sanitize_text_field( $_POST['ripm_journal_meta_box_abbreviation'] );
-            
-        //     update_post_meta( $post_id, 'ripm_journal_meta_box_abbreviation', strtoupper($clean_name) );
 
-        //     if (strcasecmp($post->post_name, $clean_name) != 0) {
-
-        //         //Create unique slug from abbreviation
-        //         //$slug = wp_unique_post_slug( $clean_name, $post_id, $post->post_status, $post->post_type, $post->post_parent );
-                
-        //         $slug= wp_unique_post_slug( $clean_name, $post_ID, $post_status, $post_type, $post_parent);
-
-        //         $update_post = array(
-        //             'ID'           =>  $post_id,
-        //             'post_name'   => $slug,
-        //         );
-        //         wp_update_post( $update_post );
-        //     }
-            
-        // }
-     
-    // Make sure your data is set before trying to save it
+    //Check that data is set and clean before saving it
     if( isset( $_POST['ripm_journal_meta_box_sort_title'] ) )
        update_post_meta( $post_id, 'ripm_journal_meta_box_sort_title', wp_kses( $_POST['ripm_journal_meta_box_sort_title'], $allowed ) );
     if( isset( $_POST['ripm_journal_meta_box_abbreviation'] ) )
@@ -114,5 +97,3 @@ function ripm_journal_meta_box_save( $post_id )
 
 
 }
-
-?>

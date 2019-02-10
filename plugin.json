@@ -1,0 +1,8 @@
+{
+	"name" : "Ripm Journal Plugin",
+	"version" : "0.1",
+	"download_url" : "http://example.com/plugin-name-2.0.zip",
+	"sections" : {
+	"description" : "Plugin for RIPM Journal Custom Post Type and Journal related functions."
+	}
+}
