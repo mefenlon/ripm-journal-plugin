@@ -1,0 +1,22 @@
+{
+	"name": "mefenlon/ripm-journal-plugin",
+	"type": "project",
+	"description": "A WordPress plugin for the RIPM Journal Custom Post Type.",
+	"keywords": ["wordpress", "custom post type"],
+	"homepage": "https://github.com/mefenlon/ripm-journal-plugin",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Matthew Fenlon",
+			"homepage": "https://github.com/mefenlon/",
+			"role": "Developer"
+		}
+	],
+	"require": {
+        "php": ">=5.2.0",
+		"yahnis-elsts/plugin-update-checker": "^4.5"
+	},
+	"autoload": {
+		
+	}
+}
