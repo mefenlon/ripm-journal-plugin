@@ -22,23 +22,19 @@
  */
 
 
-/**
- * Main plugin class
- */
-
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
     require( __DIR__ . '/vendor/autoload.php' );
 }
 
-
-
 $rjpUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
         'https://github.com/mefenlon/ripm-journal-plugin',
         __FILE__,
         'ripm-journal-plugin'
 );
+
+add_filter('widget_text', 'do_shortcode');
 
 // Create ripm taxonomies
 function ripm_taxonomy_init() {
@@ -54,63 +50,152 @@ ripm_taxonomy_init();
 function ripm_post_type_init() {
     include(plugin_dir_path( __FILE__ ).'includes/journal-metabox.php');
     include(plugin_dir_path( __FILE__ ).'includes/journal-post-type.php');
-    include(plugin_dir_path( __FILE__ ).'includes/journal-admin.php');
+    //include(plugin_dir_path( __FILE__ ).'includes/journal-admin.php');
 
 }
 ripm_post_type_init();
 
+function display_journal_meta($atts, $content = null ) {
+     global $post;
+     $atts = shortcode_atts( array(
+		'container'       => 'ul',
+        'container_id'    => 'ripm_journal.'.$post->ID,
+        'container_class' => '',
+        'item'       => 'li',
+        'item_class' => ''
+	), $atts, 'display_journal_meta' );
 
-/**
- * Template loader.
- *
- * The template loader will check if WP is loading a template
- * for a specific Post Type and will try to load the template
- * from out 'templates' directory.
- *
- * @since 1.0.0
- *
- * @param	string	$template	Template file that is being loaded.
- * @return	string				Template file that should be loaded.
- */
-function wcpt_template_loader( $template ) {
-    $find = array();
-    $file = '';
-    if ( is_singular( 'ripm_journal' ) ) :
-        $file = plugin_dir_path( __FILE__ ).'templates/single-ripm_journal.php';
-    elseif ( is_singular( 'ripm_journal' ) ) :
-        $file = plugin_dir_path( __FILE__ ).'templates/single-ripm_journal.php';
-    endif;
-    if ( file_exists($file ) ) :
-        $template =  $file ;
-    endif;
-    return $template;
+
+     $content = '';
+     $custom_content = get_post_custom($post->ID);
+     if(count($custom_content)){
+
+        $content .= "<". $atts['container'] ." id='".$atts['container_id']. "' class='". $atts['container_class']. "'>";
+         $city =  get_the_term_list( $post->ID, 'city', ' ', ', ' );
+         if (!empty($city )) {
+             $content .= "<". $atts['item'] ." id='ripm_journal_taxonomy_city' class='". $atts['item_class']. "'>";
+             $content .= "Place of Publication: ";
+             $content .= $city;
+             $content .= "</". $atts['item'] . ">";
+         }
+         if (isset($custom_content["ripm_journal_meta_box_display_date"])) {
+             $content .= "<". $atts['item'] ." id='ripm_journal_meta_box_display_date' class='". $atts['item_class']. "'>";
+             $content .= "Date of Publication: ";
+             $content .= implode(', ', $custom_content["ripm_journal_meta_box_display_date"]);
+             $content .= "</". $atts['item'] . ">";
+         }
+        if (isset($custom_content["ripm_journal_meta_box_periodicity"])) {
+            $content .= "<". $atts['item'] ." id='ripm_journal_meta_box_periodicity' class='". $atts['item_class']. "'>";
+            $content .= "Periodicity: ";
+            $content .= implode(', ', $custom_content["ripm_journal_meta_box_periodicity"]);
+            $content .= "</". $atts['item'] . ">";
+        }
+         $editor = get_the_term_list( $post->ID, 'editor' ,  ' ' );
+         if (!empty($editor)) {
+             $content .= "<". $atts['item'] ." id='ripm_journal_taxonomy_editor' class='". $atts['item_class']. "'>";
+             $content .= "Editor: ";
+             $content .= $editor;
+             $content .= "</". $atts['item'] . ">";
+         }
+         $publisher = get_the_term_list( $post->ID, 'publisher' ,  ' ' );
+         if (!empty($publisher)) {
+             $content .= "<". $atts['item'] ." id='ripm_journal_taxonomy_publisher' class='". $atts['item_class']. "'>";
+             $content .= "Place of Publication: ";
+             $content .= $publisher;
+             $content .= "</". $atts['item'] . ">";
+         }
+         $content .= "</". $atts['container'] . ">";
+     }
+
+     return $content;
 }
-add_filter( 'template_include', 'wcpt_template_loader' );
+add_shortcode('display_journal_meta', 'display_journal_meta');
 
 
+function display_journal_table($atts, $content = null ) {
+    $atts = array(
+        'table_class' => 'tablesorter {sortlist: [[0,0],[1,0]]}',
+    );
+    $args = array(
+        'post_type' => 'ripm_journal',
+        'orderby'  => array( 'meta_value_num' => 'DESC', 'title' => 'ASC' ),
+        'meta_key' => 'ripm_journal_meta_box_start_year',
+        'nopaging' => true,
+    );
 
-function ripm_rewrite_flush() {
-    // First, we "add" the custom post type via the above written function.
-    // Note: "add" is written with quotes, as CPTs don't get added to the DB,
-    // They are only referenced in the post_type column with a post entry, 
-    // when you add a post of this CPT.
-    //ripm_journal_init();
+    $post_query = new WP_Query($args);
+    if($post_query->have_posts() ) {
 
-    // ATTENTION: This is *only* done during plugin activation hook in this example!
-    // You should *NEVER EVER* do this on every page load!!
-    flush_rewrite_rules();
+        $table = <<< HTML
+        <table class="{$atts['table_class']}">
+            <thead>
+            <tr>
+                <th class="dateFormat-yyyy">Date</th>
+                <th>Title</th>
+                <th>Language</th>
+            </tr>
+            </thead>
+            <tbody>
+
+HTML;
+
+        while($post_query->have_posts() ) {
+            $post_query->the_post();
+            $custom_content = get_post_custom($post_query->post->ID);
+            if (isset($custom_content["ripm_journal_meta_box_display_date"])) {
+                $display_date= implode(', ', $custom_content["ripm_journal_meta_box_display_date"]);
+            }
+            if (isset($custom_content["ripm_journal_meta_box_start_year"])) {
+                $year= implode(', ', $custom_content["ripm_journal_meta_box_start_year"]);
+            }
+            $city =  get_the_term_list( $post_query->post->ID, 'city', ' ', ', ' );
+            $language =  get_the_term_list( $post_query->post->ID, 'language', ' ', ', ' );
+
+            $display_title = '<a href="'.esc_url( get_permalink( $post_query->post->ID ) ).'">' .
+                get_the_title($post_query->post->ID)
+                . '</a> (' . $city . ', '. $display_date .')';
+
+            $table .= <<< HTML
+                <tr>
+                    <td>{$year}</td>
+                    <td>{$display_title}</td>
+                    <td>{$language}</td>
+                </tr>
+
+HTML;
+        }
+
+        $table .= <<< HTML
+            </tbody>
+        </table>
+
+HTML;
+    }
+
+    return $table;
 }
-register_activation_hook( __FILE__, 'ripm_rewrite_flush' );
-add_action( 'after_switch_theme', 'ripm_rewrite_flush' );
+add_shortcode('display_journal_table', 'display_journal_table');
 
 
 
-function debug_to_console( $data ) {
-    $output = $data;
-    if ( is_array( $output ) )
-        $output = implode( ',', $output);
-
-    echo "<script>console.log( 'Debug Objects: " . $output . "' );</script>";
+function include_template_function( $template_path ) {
+    if ( get_post_type() == 'ripm_journal' ) {
+        if ( is_single() ) {
+            // checks if the file exists in the theme first,
+            // otherwise serve the file from the plugin
+            if ( $theme_file = locate_template( array ( 'single-ripm_journal.php' ) ) ) {
+                $template_path = $theme_file;
+            } else {
+                $template_path = plugin_dir_path( __FILE__ ) . '/templates/single-ripm_journal.php';
+            }
+        }elseif ( is_archive() ) {
+            if ( $theme_file = locate_template( array ( 'archive-ripm_journal.php' ) ) ) {
+                $template_path = $theme_file;
+            } else {
+                $template_path = plugin_dir_path( __FILE__ ) . '/templates/archive-ripm_journal.php';
+            }
+        }
+    }
+    return $template_path;
 }
-
-
+//add_filter( 'template_include', 'include_template_function', 1 );
