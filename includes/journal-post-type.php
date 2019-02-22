@@ -36,7 +36,7 @@ function ripm_journal_init() {
 		'hierarchical'       => false,
         'menu_position'      => null,
         'menu_icon'           => 'dashicons-book-alt',
-        'supports'           => array( 'title', 'editor', 'thumbnail', 'excerpt', 'revisions' ),
+        'supports'           => array( 'title', 'editor', 'thumbnail', 'excerpt', 'revisions' ,'custom-fields'),
         'register_meta_box_cb' => 'ripm_journal_meta_box_add',
         "taxonomies" => array( 'category', 'post_tag' ),
 	);
