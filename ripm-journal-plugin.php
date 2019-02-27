@@ -24,6 +24,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+//Load composer includes
 if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
     require( __DIR__ . '/vendor/autoload.php' );
 }
@@ -34,6 +35,7 @@ $rjpUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
         'ripm-journal-plugin'
 );
 
+//Allow widgets to load shortcodes
 add_filter('widget_text', 'do_shortcode');
 
 // Create ripm taxonomies
@@ -50,8 +52,7 @@ ripm_taxonomy_init();
 function ripm_post_type_init() {
     include(plugin_dir_path( __FILE__ ).'includes/journal-metabox.php');
     include(plugin_dir_path( __FILE__ ).'includes/journal-post-type.php');
-    //include(plugin_dir_path( __FILE__ ).'includes/journal-admin.php');
-
+    include(plugin_dir_path( __FILE__ ).'includes/journal-admin.php');
 }
 ripm_post_type_init();
 
@@ -177,25 +178,25 @@ HTML;
 add_shortcode('display_journal_table', 'display_journal_table');
 
 
-
-function include_template_function( $template_path ) {
-    if ( get_post_type() == 'ripm_journal' ) {
-        if ( is_single() ) {
-            // checks if the file exists in the theme first,
-            // otherwise serve the file from the plugin
-            if ( $theme_file = locate_template( array ( 'single-ripm_journal.php' ) ) ) {
-                $template_path = $theme_file;
-            } else {
-                $template_path = plugin_dir_path( __FILE__ ) . '/templates/single-ripm_journal.php';
-            }
-        }elseif ( is_archive() ) {
-            if ( $theme_file = locate_template( array ( 'archive-ripm_journal.php' ) ) ) {
-                $template_path = $theme_file;
-            } else {
-                $template_path = plugin_dir_path( __FILE__ ) . '/templates/archive-ripm_journal.php';
-            }
-        }
-    }
-    return $template_path;
-}
+//
+//function include_template_function( $template_path ) {
+//    if ( get_post_type() == 'ripm_journal' ) {
+//        if ( is_single() ) {
+//            // checks if the file exists in the theme first,
+//            // otherwise serve the file from the plugin
+//            if ( $theme_file = locate_template( array ( 'single-ripm_journal.php' ) ) ) {
+//                $template_path = $theme_file;
+//            } else {
+//                $template_path = plugin_dir_path( __FILE__ ) . '/templates/single-ripm_journal_elm.php';
+//            }
+//        }elseif ( is_archive() ) {
+//            if ( $theme_file = locate_template( array ( 'archive-ripm_journal.php' ) ) ) {
+//                $template_path = $theme_file;
+//            } else {
+//                $template_path = plugin_dir_path( __FILE__ ) . '/templates/archive-ripm_journal.php';
+//            }
+//        }
+//    }
+//    return $template_path;
+//}
 //add_filter( 'template_include', 'include_template_function', 1 );
