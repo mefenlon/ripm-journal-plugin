@@ -20,7 +20,7 @@ function ripm_country_taxonomy_init() {
 		'update_item'                => __( 'Update Country', 'textdomain' ),
 		'add_new_item'               => __( 'Add New Country', 'textdomain' ),
 		'new_item_name'              => __( 'New Country Name', 'textdomain' ),
-		'separate_items_with_commas' => __( 'Separate countries with commas', 'textdomain' ),
+        'separate_items_with_commas' => __( 'USE -- in place of a comma within a location. <br>Separate locations with commas', 'textdomain' ),
 		'add_or_remove_items'        => __( 'Add or remove countries', 'textdomain' ),
 		'choose_from_most_used'      => __( 'Choose from the most used countries', 'textdomain' ),
 		'not_found'                  => __( 'No countries found.', 'textdomain' ),

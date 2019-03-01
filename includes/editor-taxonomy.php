@@ -20,7 +20,7 @@ function ripm_editor_taxonomy_init() {
 		'update_item'                => __( 'Update Editor', 'textdomain' ),
 		'add_new_item'               => __( 'Add New Editor', 'textdomain' ),
 		'new_item_name'              => __( 'New Editor Name', 'textdomain' ),
-		'separate_items_with_commas' => __( 'Separate editors with commas', 'textdomain' ),
+        'separate_items_with_commas' => __( 'USE -- in place of a comma within a name. <br>Separate names with commas', 'textdomain' ),
 		'add_or_remove_items'        => __( 'Add or remove editors', 'textdomain' ),
 		'choose_from_most_used'      => __( 'Choose from the most used editors', 'textdomain' ),
 		'not_found'                  => __( 'No editors found.', 'textdomain' ),

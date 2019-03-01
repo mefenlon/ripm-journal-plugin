@@ -20,7 +20,7 @@ function ripm_language_taxonomy_init() {
         'update_item'                => __( 'Update Language', 'textdomain' ),
         'add_new_item'               => __( 'Add New Language', 'textdomain' ),
         'new_item_name'              => __( 'New Language Name', 'textdomain' ),
-        'separate_items_with_commas' => __( 'Separate languages with commas', 'textdomain' ),
+        'separate_items_with_commas' => __( 'USE -- in place of a comma within a language. <br>Separate languages with commas', 'textdomain' ),
         'add_or_remove_items'        => __( 'Add or remove languages', 'textdomain' ),
         'choose_from_most_used'      => __( 'Choose from the most used languages', 'textdomain' ),
         'not_found'                  => __( 'No languages found.', 'textdomain' ),

@@ -20,7 +20,7 @@ function ripm_publisher_taxonomy_init() {
 		'update_item'                => __( 'Update Publisher', 'textdomain' ),
 		'add_new_item'               => __( 'Add New Publisher', 'textdomain' ),
 		'new_item_name'              => __( 'New Publisher Name', 'textdomain' ),
-		'separate_items_with_commas' => __( 'Separate publishers with commas', 'textdomain' ),
+        'separate_items_with_commas' => __( 'USE -- in place of a comma within a single publisher. <br>Separate publishers with commas', 'textdomain' ),
 		'add_or_remove_items'        => __( 'Add or remove publishers', 'textdomain' ),
 		'choose_from_most_used'      => __( 'Choose from the most used publishers', 'textdomain' ),
 		'not_found'                  => __( 'No publishers found.', 'textdomain' ),
