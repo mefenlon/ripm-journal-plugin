@@ -35,6 +35,10 @@ $rjpUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
         'ripm-journal-plugin'
 );
 
+
+include(plugin_dir_path( __FILE__ ).'includes/filter-commas-in-taxonomy.php');
+
+
 //Allow widgets to load shortcodes
 add_filter('widget_text', 'do_shortcode');
 
@@ -52,7 +56,7 @@ ripm_taxonomy_init();
 function ripm_post_type_init() {
     include(plugin_dir_path( __FILE__ ).'includes/journal-metabox.php');
     include(plugin_dir_path( __FILE__ ).'includes/journal-post-type.php');
-    include(plugin_dir_path( __FILE__ ).'includes/journal-admin.php');
+    //include(plugin_dir_path( __FILE__ ).'includes/journal-admin.php');
 }
 ripm_post_type_init();
 
