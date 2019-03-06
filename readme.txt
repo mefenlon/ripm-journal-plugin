@@ -14,9 +14,10 @@ Plugin for RIPM Journal Custom Post Type and Journal related functions.
 
 This plugin adds a journal custom post type and custom meta fields and taxonomies.
 
-This plugin also includes the following [shortcodes](https://codex.wordpress.org/Shortcode "Wordpress Shortcode Documentation")
-* [display_journal_table] Shows all journals in a table. Can be placed on any page.
-* [display_journal_meta] Display the custom fields associated with a journal. Can be displayed on individual journal page.
+This plugin includes the following [shortcodes](https://codex.wordpress.org/Shortcode "Wordpress Shortcode Documentation")
+* [ripm_display_journal_table] Shows all journals in a table. Can be placed on any page.
+* [ripm_display_journal_meta] Display the custom fields associated with a journal. Can be displayed on individual journal page.
+* [ripm_display_journal_combined_title] Display the Journal title, city and display date in the format TITLE (CITY, DATE_STRING). Can be displayed on individual journal page.
 
 This plugin includes the following Taxonomies (allows one or many)
 USE -- in place of a comma.
@@ -29,6 +30,10 @@ Please note, Wordpress Taxonomies DO NOT ALLOW COMMAS in the text. Commas are us
 To get around this, use a -- in any taxonomy where you would need a comma.
 Example: To enter "Poughkeepsie, New York" as a City, use the text Poughkeepsie-- New York
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 117771c3bc21812cf5be5978d7aa422d20b487a9
 
 == Installation ==
 
