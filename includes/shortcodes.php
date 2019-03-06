@@ -42,12 +42,15 @@ if ( ! function_exists( 'ripm_jcpt_display_journal_combined_title' ) ) {
         } else
             $display_title .= get_the_title($post->ID) . ' ';
 
-        $extras[] = get_the_term_list($post->ID, 'city', ' ', ', ');
-
         $custom_content = get_post_custom($post->ID);
         if(count($custom_content)){
-            if (isset($custom_content["ripm_journal_meta_box_display_date"])) {
-                $extras[] = implode(', ', $custom_content["ripm_journal_meta_box_display_date"]);
+            if(!empty($custom_content["ripm_journal_meta_box_display_locations_and_dates"])) {
+                $extras[] = implode(', ', $custom_content["ripm_journal_meta_box_display_locations_and_dates"]);
+            }else{
+                $extras[] = get_the_term_list($post->ID, 'city', ' ', ', ');
+                if(!empty($custom_content["ripm_journal_meta_box_display_date"])) {
+                    $extras[] = implode(', ', $custom_content["ripm_journal_meta_box_display_date"]);
+                }
             }
         }
 
