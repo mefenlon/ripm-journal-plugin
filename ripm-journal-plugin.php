@@ -34,8 +34,9 @@ $rjpUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
         __FILE__,
         'ripm-journal-plugin'
 );
+$rjpUpdateChecker->getVcsApi()->enableReleaseAssets();
 
-
+//Add taxonomy filters
 include(plugin_dir_path( __FILE__ ).'includes/filter-commas-in-taxonomy.php');
 
 //Add shortcodes
