@@ -46,7 +46,7 @@ Example: To enter "Poughkeepsie, New York" as a City, use the text Poughkeepsie-
 .
 == Changelog ==
 
-= 0.3 =
+= 0.3.1 =
 * Theme modifications
 * Update plugin testing
 
