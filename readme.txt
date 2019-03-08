@@ -30,10 +30,6 @@ Please note, Wordpress Taxonomies DO NOT ALLOW COMMAS in the text. Commas are us
 To get around this, use a -- in any taxonomy where you would need a comma.
 Example: To enter "Poughkeepsie, New York" as a City, use the text Poughkeepsie-- New York
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 117771c3bc21812cf5be5978d7aa422d20b487a9
 
 == Installation ==
 
@@ -52,5 +48,11 @@ Example: To enter "Poughkeepsie, New York" as a City, use the text Poughkeepsie-
 
 = 0.1 =
 * Initial Release
+= 0.2 =
+* Structure cleanup
+* Added comma filtering and substitution for -- in taxonomy
+= 0.2.1 =
+* Theme modifications
+* Update plugin testing
 
 == Upgrade Notice ==
