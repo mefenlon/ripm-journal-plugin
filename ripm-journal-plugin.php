@@ -43,6 +43,11 @@ include(plugin_dir_path( __FILE__ ).'includes/shortcodes.php');
 //Allow widgets to load shortcodes
 add_filter('widget_text', 'do_shortcode');
 
+//Theme modifications
+include(plugin_dir_path( __FILE__ ).'includes/theme-modifications.php');
+
+
+
 // Create ripm taxonomies
 include(plugin_dir_path( __FILE__ ).'includes/city-taxonomy.php');
 include(plugin_dir_path( __FILE__ ).'includes/country-taxonomy.php');
