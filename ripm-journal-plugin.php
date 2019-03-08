@@ -4,14 +4,14 @@
  * RIPM Journals
  *
  * @package RIPM Journals
- * @version 0.1
+ * @version 0.3.1
  * @author Matthew Fenlon <matthewfenlon@gmail.com>
  *
  *
  * Plugin name: RIPM Journals
  * Plugin URI:  https://github.com/mefenlon/ripm-journal-plugin/
  * Description: Plugin for RIPM Journal Custom Post Type and Journal related functions.
- * Version:     0.1
+ * Version:     0.3.1
  * Author:      Matthew Fenlon
  * Author URI:  https://github.com/mefenlon/
  * License:     GPLv2
