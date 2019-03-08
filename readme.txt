@@ -48,5 +48,11 @@ Example: To enter "Poughkeepsie, New York" as a City, use the text Poughkeepsie-
 
 = 0.1 =
 * Initial Release
+= 0.2 =
+* Structure cleanup
+* Added comma filtering and substitution for -- in taxonomy
+= 0.2.1 =
+* Theme modifications
+* Update plugin testing
 
 == Upgrade Notice ==
