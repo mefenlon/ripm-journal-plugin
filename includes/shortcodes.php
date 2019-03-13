@@ -79,48 +79,61 @@ if ( ! function_exists( 'ripm_jcpt_display_journal_meta' ) ) {
         global $post;
         $atts = shortcode_atts( array(
             'container'       => 'ul',
-            'container_id'    => 'ripm_journal.'.$post->ID,
-            'container_class' => '',
+            'container_id'    => 'ripm_journal_meta',
+            'container_class' => 'ripm_journal_meta',
             'item'       => 'li',
-            'item_class' => ''
+            'item_class' => '',
+            'item_label' => 'strong',
+            'item_label_class' => ''
         ), $atts, 'ripm_display_journal_meta' );
 
 
         $content = '';
         $custom_content = get_post_custom($post->ID);
+
         if(count($custom_content)){
 
-            $content .= "<". $atts['container'] ." id='".$atts['container_id']. "' class='". $atts['container_class']. "'>";
+            $content .= "<". $atts['container'] . " class='". $atts['container_class'] . "' id='".$atts['container_id'] . "'>";
             $city =  get_the_term_list( $post->ID, 'city', ' ', ', ' );
             if (!empty($city )) {
                 $content .= "<". $atts['item'] ." id='ripm_journal_taxonomy_city' class='". $atts['item_class']. "'>";
+                $content .= "<". $atts['item_label'] ." class='". $atts['item_label_class']. "'>";
                 $content .= "Place of Publication: ";
+                $content .= "</". $atts['item_label'] . ">";
                 $content .= $city;
                 $content .= "</". $atts['item'] . ">";
             }
             if (isset($custom_content["ripm_journal_meta_box_display_date"])) {
                 $content .= "<". $atts['item'] ." id='ripm_journal_meta_box_display_date' class='". $atts['item_class']. "'>";
+                $content .= "<". $atts['item_label'] ." class='". $atts['item_label_class']. "'>";
                 $content .= "Date of Publication: ";
+                $content .= "</". $atts['item_label'] . ">";
                 $content .= implode(', ', $custom_content["ripm_journal_meta_box_display_date"]);
                 $content .= "</". $atts['item'] . ">";
             }
             if (isset($custom_content["ripm_journal_meta_box_periodicity"])) {
                 $content .= "<". $atts['item'] ." id='ripm_journal_meta_box_periodicity' class='". $atts['item_class']. "'>";
+                $content .= "<". $atts['item_label'] ." class='". $atts['item_label_class']. "'>";
                 $content .= "Periodicity: ";
+                $content .= "</". $atts['item_label'] . ">";
                 $content .= implode(', ', $custom_content["ripm_journal_meta_box_periodicity"]);
                 $content .= "</". $atts['item'] . ">";
             }
             $editor = get_the_term_list( $post->ID, 'editor' ,  ' ', ', ' );
             if (!empty($editor)) {
                 $content .= "<". $atts['item'] ." id='ripm_journal_taxonomy_editor' class='". $atts['item_class']. "'>";
+                $content .= "<". $atts['item_label'] ." class='". $atts['item_label_class']. "'>";
                 $content .= "Editor: ";
+                $content .= "</". $atts['item_label'] . ">";
                 $content .= $editor;
                 $content .= "</". $atts['item'] . ">";
             }
             $publisher = get_the_term_list( $post->ID, 'publisher' ,  ' ', ', ' );
             if (!empty($publisher)) {
                 $content .= "<". $atts['item'] ." id='ripm_journal_taxonomy_publisher' class='". $atts['item_class']. "'>";
+                $content .= "<". $atts['item_label'] ." class='". $atts['item_label_class']. "'>";
                 $content .= "Place of Publication: ";
+                $content .= "</". $atts['item_label'] . ">";
                 $content .= $publisher;
                 $content .= "</". $atts['item'] . ">";
             }
@@ -198,6 +211,36 @@ HTML;
         }
 
         return $table;
+    }
+}
+
+
+//Display Journal Title ( City, Dates )
+if ( ! function_exists( 'ripm_jcpt_display_tags' ) ) {
+
+    add_shortcode('ripm_display_tags', 'ripm_jcpt_display_tags');
+
+    function ripm_jcpt_display_tags($atts, $content = null)
+    {
+        global $post;
+        $atts = shortcode_atts( array(
+            'container'         => 'ul',
+            'container_id'      => 'ripm_journal_tags',
+            'container_class'   => 'ripm_inline_list',
+            'element'         => 'li',
+            'element_class'   => 'elementor-icon-list-item',
+            'taxonomy'          => 'post_tag',
+            'link_id'           => 'ripm_journal_title_link.'.$post->ID,
+            'link_class'       => '',
+            'make_link' => true,
+
+        ), $atts, 'ripm_display_tags' );
+
+
+        return get_the_term_list( $post->ID, $atts['taxonomy'] ,
+                     '<' .$atts['container'] .' class="'.$atts['container_class'].'" id="'.$atts['container_id'].'"><'.$atts['element'].'>',
+                       '</'.$atts['element'].'><'.$atts['element'].'>',
+                      '</'.$atts['element'].'></'.$atts['container'].'>' );
     }
 }
 
