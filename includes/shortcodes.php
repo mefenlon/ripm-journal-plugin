@@ -54,9 +54,12 @@ if ( ! function_exists( 'ripm_jcpt_display_journal_combined_title' ) ) {
             }
         }
 
-        if(!empty($extras)){
-            $display_title .= ' ('. implode(', ', $extras) . ') ';
-        }
+            if (!empty($extras)) {
+                $insides = trim(implode(', ', $extras));
+                if(!empty($insides))
+                    $display_title .= ' (' .$insides  . ') ';
+            }
+
 
         if(!empty($content))
             $display_title .= '<br/>' . $content;
