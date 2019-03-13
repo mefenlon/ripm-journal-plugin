@@ -51,3 +51,30 @@ if( !is_admin() ) { // make sure the filters are only called in the frontend
 
 
 }
+
+
+add_filter('the_title', 'my_strtoupper', 10, 2);
+function my_strtoupper($title, $id) {
+    global $post;
+
+    $custom_content = get_post_custom($post->ID);
+    if(count($custom_content)){
+        if(!empty($custom_content["ripm_journal_meta_box_display_locations_and_dates"])) {
+            $extras[] = implode(', ', $custom_content["ripm_journal_meta_box_display_locations_and_dates"]);
+        }else{
+            $extras[] = get_the_term_list($post->ID, 'city', ' ', ', ');
+            if(!empty($custom_content["ripm_journal_meta_box_display_date"])) {
+                $extras[] = implode(', ', $custom_content["ripm_journal_meta_box_display_date"]);
+            }
+        }
+    }
+
+    if ( is_post_type_archive() ) {
+        if (!empty($extras)) {
+            $insides = trim(implode(', ', $extras));
+            if(!empty($insides))
+                $title .= ' (' .$insides  . ') ';
+        }
+    }
+    return $title;
+} // function my_strtoupper
