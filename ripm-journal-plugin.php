@@ -37,7 +37,7 @@ $rjpUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
 $rjpUpdateChecker->getVcsApi()->enableReleaseAssets();
 
 //Add taxonomy filters
-include(plugin_dir_path( __FILE__ ).'includes/filter-commas-in-taxonomy.php');
+include(plugin_dir_path( __FILE__ ).'includes/filters.php');
 
 //Add shortcodes
 include(plugin_dir_path( __FILE__ ).'includes/shortcodes.php');
