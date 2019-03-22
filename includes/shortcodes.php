@@ -158,9 +158,9 @@ if ( ! function_exists( 'ripm_jcpt_display_journal_table' ) ) {
         <table class="{$atts['table_class']}">
             <thead>
             <tr>
-                <th class="dateFormat-yyyy">Date</th>
+                <th class="dateFormat-yyyy">Date&nbsp;&nbsp;&nbsp;</th>
                 <th>Title</th>
-                <th>Language</th>
+                <th>Language&nbsp;&nbsp;&nbsp;</th>
             </tr>
             </thead>
             <tbody>
